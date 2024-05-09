@@ -48,11 +48,11 @@ function LinkedList() {
   };
   const pop = () => {
     let listSize = size();
-    if (!listSize) return "Empty!";
+    if (!listSize) throw new Error("List Empty");
     at(listSize - 1).next = null;
   };
   const contains = (value) => {
-    for (let node = list; node.next; node = node.next) {
+    for (let node = list; node; node = node.next) {
       if (node.value === value) return true;
     }
     return false;
@@ -66,10 +66,9 @@ function LinkedList() {
     }
   };
   const toString = () => {
-    let listSize = size();
     let string = "";
-    for (let i = 0; i <= listSize; i++) {
-      string += "( value ) -> ";
+    for (let node = list; node; node = node.next) {
+      string += `( ${node.value} ) -> `;
     }
     string += "null";
     return string;
@@ -88,8 +87,8 @@ function LinkedList() {
     let next = at(index + 1);
 
     if (index === 0) {
-        list = next
-        return
+      list = next;
+      return;
     }
     let previous = at(index - 1);
     previous.next = next;
@@ -118,9 +117,36 @@ function Node(value = null, next = null) {
 
 list = LinkedList();
 
-list.append(1);
-list.append(2);
-list.append(4);
+list.append(10);
+list.append(20);
+list.append(30);
 
-console.log(list.removeAt(3));
-console.log(list.head());
+console.log(list.toString()); // Output: ( 10 ) -> ( 20 ) -> ( 30 ) -> null
+
+list.prepend(5);
+
+console.log(list.toString()); // Output: ( 5 ) -> ( 10 ) -> ( 20 ) -> ( 30 ) -> null
+
+console.log(list.size()); // Output: 4
+
+console.log(list.head()); // Output: 5
+
+console.log(list.tail()); // Output: 30
+
+console.log(list.at(2)); // Output: 20
+
+list.pop(); // Removes the last node
+
+console.log(list.toString()); // Output: ( 5 ) -> ( 10 ) -> ( 20 ) -> null
+
+console.log(list.contains(20)); // Output: true
+
+console.log(list.find(10)); // Output: 1
+
+list.insertAt(15, 2); // Inserts at index 2
+
+console.log(list.toString()); // Output: ( 5 ) -> ( 10 ) -> ( 15 ) -> ( 20 ) -> null
+
+list.removeAt(1); // Removes at index 1
+
+console.log(list.toString()); // Output: ( 5 ) -> ( 15 ) -> ( 20 ) -> null
